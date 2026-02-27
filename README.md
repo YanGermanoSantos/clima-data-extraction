@@ -16,7 +16,9 @@ O fluxo foi desenhado para ser resiliente e organizado:
     * Consome a API utilizando chaves de segurança.
     * Calcula o intervalo de 7 dias dinamicamente com a biblioteca **Pendulum**.
     * Salva o dataset completo (`dados_brutos.csv`).
-    * Particiona os dados em arquivos específicos de `temperaturas.csv` e `condicoes.csv`.
+    * Particiona os dados em arquivos específicos de `temperaturas.csv` e `condicoes.csv`.~
+
+<img width="2872" height="1154" alt="image" src="https://github.com/user-attachments/assets/d56f6fab-edb6-429d-bd88-2fdccec5520b" />
 
 ## ⚙️ Como Executar o Projeto
 
