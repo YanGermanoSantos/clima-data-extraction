@@ -18,13 +18,6 @@ O fluxo foi desenhado para ser resiliente e organizado:
     * Salva o dataset completo (`dados_brutos.csv`).
     * Particiona os dados em arquivos específicos de `temperaturas.csv` e `condicoes.csv`.
 
-
-
-## 🛠️ Boas Práticas de Engenharia de Dados
-* **Idempotência**: A DAG pode ser reexecutada para qualquer data passada sem gerar conflitos ou duplicação, graças ao uso de variáveis de execução do Airflow.
-* **Segurança (Secret Management)**: Uso de variáveis de ambiente (`.env`) para que chaves de API nunca fiquem expostas no código-fonte.
-* **Infraestrutura como Código**: Ambiente totalmente reproduzível através do Docker e Astro CLI.
-
 ## ⚙️ Como Executar o Projeto
 
 ### Pré-requisitos
