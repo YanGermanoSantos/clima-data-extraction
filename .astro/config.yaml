@@ -1,0 +1,4 @@
+project:
+    name: airflow-extraction
+postgres:
+  port: 5435
