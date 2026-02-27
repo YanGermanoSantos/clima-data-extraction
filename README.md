@@ -1,45 +1,56 @@
-Overview
-========
+# 🌦️ Airflow Weather Data Pipeline
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+Este projeto demonstra um pipeline de dados automatizado desenvolvido com **Apache Airflow** e **Astro CLI**. O objetivo é extrair dados meteorológicos históricos da cidade de Boston via API **Visual Crossing**, processar as informações e organizá-las em camadas para facilitar o consumo.
 
-Project Contents
-================
+## 🚀 Tecnologias Utilizadas
+* **Apache Airflow**: Orquestração e agendamento do pipeline.
+* **Astro CLI**: Gerenciamento do ambiente via containers Docker.
+* **Python**: Linguagem principal para extração e lógica de negócio.
+* **Pandas**: Manipulação, limpeza e particionamento dos dados.
+* **API Visual Crossing**: Fonte de dados climáticos via REST API.
 
-Your Astro project contains the following files and folders:
+## 🏗️ Arquitetura da DAG
+O fluxo foi desenhado para ser resiliente e organizado:
+1.  **`cria_pasta`**: Um `BashOperator` que cria diretórios dinâmicos na pasta `/include` do projeto, utilizando a macro `{{ds}}` para organizar os dados por data de execução.
+2.  **`extrai_dados`**: Um `PythonOperator` que:
+    * Consome a API utilizando chaves de segurança.
+    * Calcula o intervalo de 7 dias dinamicamente com a biblioteca **Pendulum**.
+    * Salva o dataset completo (`dados_brutos.csv`).
+    * Particiona os dados em arquivos específicos de `temperaturas.csv` e `condicoes.csv`.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
 
-Deploy Your Project Locally
-===========================
 
-Start Airflow on your local machine by running 'astro dev start'.
+## 🛠️ Boas Práticas de Engenharia de Dados
+* **Idempotência**: A DAG pode ser reexecutada para qualquer data passada sem gerar conflitos ou duplicação, graças ao uso de variáveis de execução do Airflow.
+* **Segurança (Secret Management)**: Uso de variáveis de ambiente (`.env`) para que chaves de API nunca fiquem expostas no código-fonte.
+* **Infraestrutura como Código**: Ambiente totalmente reproduzível através do Docker e Astro CLI.
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
+## ⚙️ Como Executar o Projeto
 
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+### Pré-requisitos
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando.
+* [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli) instalado.
 
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
+### Passo a Passo
+1.  **Clone este repositório:**
+    ```bash
+    git clone [https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git](https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git)
+    cd SEU_REPOSITORIO
+    ```
 
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+2.  **Configure a sua API Key:**
+    Crie um arquivo chamado `.env` na raiz do projeto e adicione a sua chave:
+    ```text
+    AIRFLOW_VAR_VISUAL_CROSSING_KEY=COLOQUE_SUA_CHAVE_AQUI
+    ```
 
-Deploy Your Project to Astronomer
-=================================
+3.  **Inicie os containers:**
+    ```bash
+    astro dev start
+    ```
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+4.  **Acesse o Dashboard:**
+    Vá para [http://localhost:8080](http://localhost:8080) e use as credenciais padrão (User: `admin` | Pass: `admin`).
 
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+---
+**Desenvolvido por [Seu Nome]** [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](SEU_LINK_DO_LINKEDIN)
