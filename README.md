@@ -45,5 +45,3 @@ O fluxo foi desenhado para ser resiliente e organizado:
 4.  **Acesse o Dashboard:**
     Vá para [http://localhost:8080](http://localhost:8080) e use as credenciais padrão (User: `admin` | Pass: `admin`).
 
----
-**Desenvolvido por [Seu Nome]** [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](SEU_LINK_DO_LINKEDIN)
